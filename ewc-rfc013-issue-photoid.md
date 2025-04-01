@@ -20,17 +20,17 @@ Published under a Creative Commons Attribution 4.0 International License
 
 ## **Table of Contents**
 
-1. [Summary](#1-summary)
-2. [Motivation](#2-motivation)  
+1. [Summary](#10-summary)
+2. [Motivation](#20-motivation)  
    2.1 [The need of a photo ID](#21-the-need-of-a-photo-id)  
    2.2 [ISO/IEC TS 23220 and Photo ID Issuance Process](#22-isoiec-ts-23220-and-photo-id-issuance-process)  
    2.3 [ETSI TS 119 461 and Identity Proofing Requirements](#23-etsi-ts-119-461-and-identity-proofing-requirements)
-3. [Scope](#3-scope)  
+3. [Scope](#30-scope)  
    3.1 [Photo ID as an Electronic Attestation of Attributes](#31-photo-id-as-an-electronic-attestation-of-attributes)
-4. [Pre-requisites](#4-pre-requisites)  
+4. [Pre-requisites](#40-pre-requisites)  
    4.1 [Photo ID as a EAA](#41-photo-id-as-a-eaa)  
    4.2 [Photo ID as a QEAA](#42-photo-id-as-a-qeaa)
-5. [Issuance Flow](#5-issuance-flow)  
+5. [Issuance Flow](#50-issuance-flow)  
    5.1 [Actors](#51-actors)  
    5.2 [Flow Details](#52-flow-details)  
       5.2.1 [Setup Phase](#521-setup-phase)  
@@ -43,7 +43,7 @@ Published under a Creative Commons Attribution 4.0 International License
 
 ---
 
-## **1 Summary**
+## **1.0 Summary**
 This specification defines the implementation of the "Photo ID profile" defined in Annex C of ISO/IEC TS 23220-4, in mdoc and SD-JWT. The attestation issued is derived from an **electronic Machine-Readable Travel Document (eMRTD)** by a Qualified Trust Service Provider (QTSP).
 
 The issuance process includes verifying the identity of the subject using eID means issued with a high Level of Assurance (LoA High), such as a **Personal ID (PID) credential**, or alternatively conducting an unnattended remote identity proofing using identity documents. The issuance follows the **OpenID4VC** framework, ensuring interoperability with **EUDI Wallets**.
@@ -56,11 +56,21 @@ The issuance process includes verifying the identity of the subject using eID me
 - **Enabling selective disclosure**, allowing users to share only necessary attributes (e.g., verifying age without revealing full birthdate), enhancing privacy and data minimization.
 
 
-## 2 Motivation
+## 2.0 Motivation
 
 ### 2.1 The need of a photo ID
 
 The need for a photo ID arises from the limitations of the current Personal ID (PID) issued within the European Digital Identity Wallet (EUDI Wallet) ecosystem. Specifically, PIDs may not always include a photo, which is a required attribute in certain use cases where biometric verification is necessary or a physical presence of the individual is required. Furthermore, some use cases, such as traveling, require specific documentation (e.g., passport) that includes a document number, which is not included in the PID schema. Therefore, a separate photo ID attestation is necessary to fulfill these requirements.
+
+#### 2.1.1 Use cases: registration and communication of information in hospitality and short-term accommodation in Spain (Real Decreto 933/2021)
+
+RD 933/2021 is a national regulation aimed at improving public security by obliging accommodation providers (like hotels, hostels, vacation rentals, and vehicle rentals) to collect and share data on their guests or users with law enforcement authorities.
+
+Real Decreto 933/2021 specifies that for traveller registration, the identification document provided must be an official, recognized form of ID. Accepted documents typically include:
+
+- Spanish National Identity Document (DNI)
+- Passport (for both Spanish citizens and foreigners)
+- Residence permits or cards (e.g., NIE or equivalent valid documentation)
 
 ### 2.2 ISO/IEC TS 23220 and Photo ID Issuance Process
 
@@ -90,9 +100,9 @@ Section 9 of ETSI TS 119 461 defines various use cases for identity proofing, in
 
 In our implementation, the passport validation step described in Section 4.2.4 of this RFC will follow the unattended remote identity proofing requirements specified in Section 9.2.3 of ETSI TS 119 461. This includes requirements related to automated validation of digital identity documents (VAL-8.3.2 requirements) and binding to applicant by automated face biometrics (BIN-8.4.3 requirements).
 
-By adhering to both the ISO/IEC TS 23220 data model and the ETSI TS 119 461 identity proofing requirements, our Photo ID issuance process ensures a high level of interoperability within the European identity ecosystem.
+By adhering to both the ISO/IEC TS 23220 data model and the ETSI TS 119 461 identity proofing requirements, the Photo ID issuance process ensures a high level of interoperability within the European identity ecosystem.
 
-## 3 Scope
+## 3.0 Scope
 
 We consider 2 possible scenarios when issuing a Photo ID attestation:
 
@@ -109,11 +119,11 @@ Depending on the recognition needs and handling within the digital identity ecos
 * Non-qualified attestations, on the other hand, are issued by a broader range of providers, operate under potentially diverse legal and contractual rules, and their trustworthiness and recognition depend on the specific context and agreements in place.
 * Qualified attestations are issued by accredited entities, adhere to specific legal and technical standards ensuring a high level of trust and legal validity, and are integrated within a formal trust framework with trusted lists. 
 
-## 4 Pre-requisites
+## 4.0 Pre-requisites
 
 ### 4.1 Photo ID as a EAA
 
-⚠️ ***Open question for Revieers*** 
+⚠️ ***Open question for Reviewers*** 
 We would appreciate your feedback on the following: Should the Photo ID be considered for issuance as a non-qualified EAA?
 
 ### 4.2 Photo ID as a QEAA
@@ -143,7 +153,7 @@ In this RFC, 2 identity proofing use cases (of the Annex C.3 - Use cases for iss
 
 
 
-## **5 Issuance Flow**
+## **5.0 Issuance Flow**
 
 The issuance process follows **OpenID4VCI** Authorisation Code flow as described in the [EWC RFC001: Issue Verifiable Credential - v2.0](https://github.com/EWC-consortium/eudi-wallet-rfcs/blob/main/ewc-rfc001-issue-verifiable-credential.md), and extends it by implementing Dynamic Credential Request (OpenID4VCI draft 13), ensuring a standardized method for **credential issuance**.
 
