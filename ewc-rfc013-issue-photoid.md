@@ -83,7 +83,9 @@ Section 5 of ISO/IEC TS 23220-2 describes the identity data collection and confi
 
 ISO/IEC TS 23220-2 Figure 1 illustrates the issuing process of an eID document, showing how an applicant provides an application form and evidence (such as ID cards issued by an Authority) to the issuer. The issuer then collects other evidence if needed, proves the applicant's identity, binds that identity with the holder, and confirms the applicant through photo ID or by person of authority.
 
-Furthermore, Section 6 of ISO/IEC TS 23220-2 defines the data model specification that we will implement for the Photo ID, including the meta attributes for person entity (Section 6.3.1) which specifies the data elements that express attributes for describing a natural person, including crucial elements like family name, given names, date of birth, portrait, and biometric templates.
+Furthermore, Section 6 of ISO/IEC TS 23220-2 defines the data model specification that photo ID profile is based on (Section 6.3) which includes the data elements that express attributes for describing a natural person, including crucial elements like family name, given names, date of birth, portrait, and biometric templates.
+
+Finally, Annex C of ISO/IEC TS 23220-4 describes the photo ID profile, including data elements as defined in ISO/IEC 23220-2 and specific ones under the namespace `org.iso.23220.photoid.1` and `org.iso.23220.dtc.1` (see [Schema definition](#70-schema-definition)).
 
 ### 2.3 ETSI TS 119 461 and Identity Proofing Requirements
 
@@ -351,8 +353,8 @@ The attestation is issued in one of the follows:
 
 ## **8.0 References**
 1. **EUDI Wallet JSON Schema**: [`ds013-photo-id.json`](https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds013-photo-id.json)
-2. [ISO/IEC TS 23220-2]
-2. [**ISO/IEC TS 23220-4 (E) Annex C** *(2024-08-14)*: Defines the **format** for Photo ID.
+2. [ISO/IEC TS 23220-2]: Data objects and encoding rules for generic eID systems
+2. [**ISO/IEC TS 23220-4 (E) Annex C** *(2024-08-14)*: Defines the specific data attributes for Photo ID.
 3. **ISO/IEC 18013-5**: Specifies **mobile driving licenses and digital identity display properties**.
 4. **OpenID4VCI**: [Draft Specification](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html).
 5. [RD 933/2021]: [Real Decreto 933/2021](https://www.boe.es/eli/es/rd/2021/10/26/933), de 26 de octubre, por el que se establecen las obligaciones de registro documental e información de las personas físicas o jurídicas que ejercen actividades de hospedaje y alquiler de vehículos a motor.
