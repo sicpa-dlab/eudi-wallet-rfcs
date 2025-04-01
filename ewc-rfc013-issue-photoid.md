@@ -35,12 +35,11 @@ Published under a Creative Commons Attribution 4.0 International License
    5.2 [Flow Details](#52-flow-details)  
       5.2.1 [Setup Phase](#521-setup-phase)  
       5.2.2 [Credential Issuance Request (OpenID4VCI)](#522-credential-issuance-request-openid4vci)  
-      5.2.3 [Dynamic Credential Request – Option A: ID proofing with PID](#523-dynamic-credential-request--option-a-id-proofing-with-pid)  
-      5.2.4 [Dynamic Credential Request - Option B: Unattended remote ID Proofing using eMRTD](#524-dynamic-credential-request---option-b-unattended-remote-id-proofing-using-emrtd)  
-      5.2.5 [Credential Issuance Completion](#525-credential-issuance-completion)
+      5.2.3 [Dynamic Credential Request](#523-dynamic-credential-request)  
+      5.2.4 [Credential Issuance Completion](#525-credential-issuance-completion)
 6. [Electronic Attestation Type](#60-electronic-attestation-type)
-7. [References](#70-references)
-
+7. [Schema definition](#70-schema-definition)
+8. [References](#80-references)
 ---
 
 ## **1.0 Summary**
@@ -60,13 +59,15 @@ The issuance process includes verifying the identity of the subject using eID me
 
 ### 2.1 The need of a photo ID
 
-The need for a photo ID arises from the limitations of the current Personal ID (PID) issued within the European Digital Identity Wallet (EUDI Wallet) ecosystem. Specifically, PIDs may not always include a photo, which is a required attribute in certain use cases where biometric verification is necessary or a physical presence of the individual is required. Furthermore, some use cases, such as traveling, require specific documentation (e.g., passport) that includes a document number, which is not included in the PID schema. Therefore, a separate photo ID attestation is necessary to fulfill these requirements.
+The need for a photo ID arises from the limitations of the current Personal ID (PID) issued within the European Digital Identity Wallet (EUDI Wallet) ecosystem. Specifically, PIDs may not always include a photo, which is a required attribute in certain use cases where biometric verification is necessary or a physical presence of the individual is required. 
+
+Furthermore, some use cases, such as traveling, require specific documentation (e.g., passport) that includes a document number, which is not included in the PID schema. Therefore, a separate photo ID attestation is necessary to fulfill these requirements.
 
 #### 2.1.1 Use cases: registration and communication of information in hospitality and short-term accommodation in Spain (Real Decreto 933/2021)
 
 RD 933/2021 is a national regulation aimed at improving public security by obliging accommodation providers (like hotels, hostels, vacation rentals, and vehicle rentals) to collect and share data on their guests or users with law enforcement authorities.
 
-Real Decreto 933/2021 specifies that for traveller registration, the identification document provided must be an official, recognized form of ID. Accepted documents typically include:
+Real Decreto 933/2021 specifies that for traveller registration, the identification document provided must be an official, recognized form of ID. Accepted documents include:
 
 - Spanish National Identity Document (DNI)
 - Passport (for both Spanish citizens and foreigners)
@@ -264,9 +265,95 @@ The attestation is issued in one of the follows:
 - **SD-JWT format**, as defined in **[`ds013-photo-id.json`](https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds013-photo-id.json)**.
 - **mDoc format**, as specified in **ISO/IEC TS 23220-4 Annex C (2024-08-14)**.
 
-## **7.0 References**
+## **7.0 Schema definition**
+
+### 7.1. ISO 23220 - Photo ID Data model
+
+#### Top-Level Attributes
+
+| Attribute   | Required/Optional | Description |
+|------------|-------------------|-------------|
+| `iso23220` | Required          | ISO/IEC 23220-1 claims |
+| `photoid`  | Required          | org.iso.23220.photoid.1 claims |
+| `dtc`      | Optional          | DTC |
+| `iss`      | Required          | Issuer URI |
+| `iat`      | Required          | Issued at (timestamp) |
+| `exp`      | Optional          | Expiration timestamp |
+| `vct`      | Required          | Verifiable Credential Type (eu.europa.ec.eudi.photoid.1) |
+
+
+#### `iso23220` Properties
+
+| Attribute | Required/Optional | Description |
+|----------|-------------------|-------------|
+| `iso23220.family_name_unicode` | Required | Unicode-encoded family name of the document holder. |
+| `iso23220.given_name_unicode` | Required | Unicode-encoded first name of the document holder. |
+| `iso23220.birth_date` | Required | Date of birth in ISO 8601 format. |
+| `iso23220.portrait` | Required | A portrait image encoded as a Data URI. |
+| `iso23220.issue_date` | Required | Date when the document was issued. |
+| `iso23220.expiry_date` | Required | The date when the document expires. |
+| `iso23220.issuing_authority_unicode` | Required | The authority responsible for issuing the document. |
+| `iso23220.issuing_country` | Required | The country issuing the document. |
+| `iso23220.sex` | Optional | Holder's sex using ISO/IEC 5218. 0=Unknown, 1=Male, 2=Female, 9=Not applicable |
+| `iso23220.nationality` | Optional | Nationality (ISO 3166-1 alpha-2 or alpha-3 code). |
+| `iso23220.document_number` | Optional | Unique number identifying the document. |
+| `iso23220.name_at_birth` | Optional | The name of the individual at birth. |
+| `iso23220.birthplace` | Optional | Place of birth (country and city/state). |
+| `iso23220.portrait_capture_date` | Optional | Date when the portrait was taken. |
+| `iso23220.resident_address_unicode` | Optional | Unicode-encoded resident address. |
+| `iso23220.resident_city_unicode` | Optional | Unicode-encoded city of residence. |
+| `iso23220.resident_postal_code` | Optional | Postal code of the residence. |
+| `iso23220.resident_country` | Optional | Country of residence. |
+| `iso23220.age_over_18` | Required | Indicates if the individual is over 18. |
+| `iso23220.age_in_years` | Optional | The age of the individual in years. |
+| `iso23220.age_birth_year` | Optional | The birth year of the individual. |
+| `iso23220.family_name_latin1` | Optional | Latin1-encoded family name. |
+| `iso23220.given_name_latin1` | Optional | Latin1-encoded given name. |
+
+#### `photoid` Properties
+
+| Attribute | Required/Optional | Description |
+|----------|-------------------|-------------|
+| `photoid.person_id` | Optional | Unique personal identifier. |
+| `photoid.birth_country` | Optional | Country where the individual was born. |
+| `photoid.birth_state` | Optional | State/province where the individual was born. |
+| `photoid.birth_city` | Optional | City where the individual was born. |
+| `photoid.administrative_number` | Optional | Audit/control number assigned by issuer. |
+| `photoid.resident_street` | Optional | Street address of residence. |
+| `photoid.resident_house_number` | Optional | House number of residence. |
+| `photoid.travel_document_number` | Optional | Travel document (e.g., passport) number. |
+| `photoid.resident_state` | Optional | State/province/district of residence. |
+
+#### `dtc` Properties
+
+| Attribute | Required/Optional | Description |
+|----------|-------------------|-------------|
+| `dtc.dtc_version` | Optional | Version of the DTC definition |
+| `dtc.dtc_dg1` | Required | Full MRZ data, base64-encoded string |
+| `dtc.dtc_dg2` | Required | Biometric data (e.g., facial image), base64 |
+| `dtc.dtc_dg3` | Optional | Binary data for Data Group 3 |
+| `dtc.dtc_dg4` | Optional | Binary data for Data Group 4 |
+| `dtc.dtc_dg5` | Optional | Binary data for Data Group 5 |
+| `dtc.dtc_dg6` | Optional | Binary data for Data Group 6 |
+| `dtc.dtc_dg7` | Optional | Binary data for Data Group 7 |
+| `dtc.dtc_dg8` | Optional | Binary data for Data Group 8 |
+| `dtc.dtc_dg9` | Optional | Binary data for Data Group 9 |
+| `dtc.dtc_dg10` | Optional | Binary data for Data Group 10 |
+| `dtc.dtc_dg11` | Optional | Binary data for Data Group 11 |
+| `dtc.dtc_dg12` | Optional | Binary data for Data Group 12 |
+| `dtc.dtc_dg13` | Optional | Binary data for Data Group 13 |
+| `dtc.dtc_dg14` | Optional | Binary data for Data Group 14 |
+| `dtc.dtc_dg15` | Optional | Binary data for Data Group 15 |
+| `dtc.dtc_dg16` | Optional | Binary data for Data Group 16 |
+| `dtc.dtc_sod` | Required | Security Object Document (SOD), base64 |
+| `dtc.dg_content_info` | Optional | Binary data of DTCContentInfo |
+
+
+## **8.0 References**
 1. **EUDI Wallet JSON Schema**: [`ds013-photo-id.json`](https://github.com/EWC-consortium/eudi-wallet-rulebooks-and-schemas/blob/main/data-schemas/ds013-photo-id.json)
-2. **ISO/IEC TS 23220-4 (E) Annex C** *(2024-08-14)*: Defines the **mDoc format** for Photo ID.
+2. [ISO/IEC TS 23220-2]
+2. [**ISO/IEC TS 23220-4 (E) Annex C** *(2024-08-14)*: Defines the **format** for Photo ID.
 3. **ISO/IEC 18013-5**: Specifies **mobile driving licenses and digital identity display properties**.
 4. **OpenID4VCI**: [Draft Specification](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html).
+5. [RD 933/2021]: [Real Decreto 933/2021](https://www.boe.es/eli/es/rd/2021/10/26/933), de 26 de octubre, por el que se establecen las obligaciones de registro documental e información de las personas físicas o jurídicas que ejercen actividades de hospedaje y alquiler de vehículos a motor.
 
